@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <h1>Register</h1>
+    {{ form_start(form) }}
+        {{ form_label(form.email, "Entrez votre adresse email") }}
+        {{ form_widget(form.email) }}
+        {% if form.email.vars.errors|length > 0 %}
+            <br />
+            <span style="color: red;" class="fadeIn second">{{ form.email.vars.errors[0].message }}</span>
+            <a href='/login'>➡️ Connectez-vous</a>
+        {% endif %}
+        {{ form_label(form.password, "Entrez votre mot de passe") }}
+        {{ form_widget(form.password) }}     
+        {{ form_label(form.first_name, "Entrez votre prénom") }}
+        {{ form_widget(form.first_name) }}
+        {{ form_label(form.last_name, "Entrez votre nom de famille") }}
+        {{ form_widget(form.last_name) }}
+        {{ form_label(form.phone_number, "Entrez votre numéro de téléphone") }}
+        {{ form_widget(form.phone_number) }}
+
+        <button type="submit">Register</button>
+    {{ form_end(form) }}
+{% endblock %}

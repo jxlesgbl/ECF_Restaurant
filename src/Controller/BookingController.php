@@ -3,65 +3,63 @@
 namespace App\Controller;
 
 use App\Entity\Bookings;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Form\BookingType;
+use App\Repository\BookingsRepository;
+use Doctrine\Persistence\ManagerRegistry;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+use function PHPUnit\Framework\isNull;
+
+#[Route('/booking')]
 class BookingController extends AbstractController
 {
-    /**
-     * @Route("/book-table", name="book_table")
-     */
-    public function bookTable(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route("/add", name:"front_booking_add")]
+    public function add(Request $request, ManagerRegistry $managerRegistry): Response
     {
+        $booking = new Bookings();
+        $booking->setUserId($this->getUser());
         // Get the form for booking a table
-        $form = $this->createForm(BookingType::class);
+        $form = $this->createForm(BookingType::class, $booking);
 
         // Handle the form submission
         $form->handleRequest($request);
 
-        // Create a new booking entity
-        $booking = new Bookings();
-
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Get the data from the form
-            $bookingData = $form->getData();
-
-            $booking->setCustomerName($bookingData['customerName']);
-            $booking->setEmail($bookingData['email']);
-            $booking->setPhoneNumber($bookingData['phoneNumber']);
-            $booking->setNumberOfPeople($bookingData['numberOfPeople']);
-            $booking->setDate($bookingData['bookingDate']);
-            $booking->setTime($bookingData['bookingTime']);
 
             // Save the booking to the database
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $managerRegistry->getManager();
             $entityManager->persist($booking);
             $entityManager->flush();
 
             // Send a confirmation email to the customer
-            // (You'll need to implement this yourself)
+            // (do it later)
 
             // Redirect to a confirmation page
-            return $this->redirectToRoute('booking_confirmation');
+            return $this->redirectToRoute('front_booking_confirm', [
+                "bookingId" => $booking->getId()
+            ]);
         }
 
         // Render the booking form
-        return $this->render('bookings/book-table.html.twig', [
-            'booking' => $booking,
+        return $this->render('bookings/add.html.twig', [
+            'bookings' => $booking,
             'form' => $form->createView(),
         ]);
     }
 
-    /**
-     * @Route("/booking-confirmation", name="booking_confirmation")
-     */
-    public function bookingConfirmation(): Response
+    #[Route("/confirm/{bookingId}", name:"front_booking_confirm")]
+    public function bookingConfirmation(Request $request, BookingsRepository $bookingsRepository, int $bookingId): Response
     {
+        $booking = $bookingsRepository->findOneBy(['id' => $bookingId]);
+        if(isNull($booking)){
+            new Exception("No booking found by this id", 404);
+        }
         // Render the confirmation page
-        return $this->render('bookings/confirmation.html.twig');
+        return $this->render('bookings/confirmation.html.twig', ['booking' => $booking]);
     }
 }

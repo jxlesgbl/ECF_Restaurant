@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Bookings;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -17,8 +18,11 @@ class BookingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('customerName', TextType::class, [
-                'label' => 'Your name',
+            ->add('firstName', TextType::class, [
+                'label' => 'Your first name',
+            ])
+            ->add('lastName', TextType::class, [
+                'label' => 'Your last name',
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Email address',
@@ -46,7 +50,7 @@ class BookingType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Booking::class,
+            'data_class' => Bookings::class,
         ]);
     }
 }

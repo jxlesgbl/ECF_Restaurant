@@ -14,8 +14,9 @@ class Bookings
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::GUID)]
-    private ?string $user_id = null;
+    #[ORM\ManyToOne(targetEntity: User::class, cascade:['persist'])]
+    #[ORM\JoinColumn(name:"user_id", referencedColumnName:"id")]
+    private ?User $userId = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
@@ -27,30 +28,34 @@ class Bookings
     private ?string $allergies = null;
 
     #[ORM\Column]
-    private ?int $number_of_people = null;
+    private ?int $numberOfPeople = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $email = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $phone_number = null;
+    private ?int $phoneNumber = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $customer_name = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $firstName = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $lastName = null;
+
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getUserId(): ?string
+    public function getUserId(): ?User
     {
-        return $this->user_id;
+        return $this->userId;
     }
 
-    public function setUserId(string $user_id): self
+    public function setUserId(?User $userId): self
     {
-        $this->user_id = $user_id;
+        $this->userId = $userId;
 
         return $this;
     }
@@ -93,12 +98,12 @@ class Bookings
 
     public function getNumberOfPeople(): ?int
     {
-        return $this->number_of_people;
+        return $this->numberOfPeople;
     }
 
-    public function setNumberOfPeople(int $number_of_people): self
+    public function setNumberOfPeople(int $numberOfPeople): self
     {
-        $this->number_of_people = $number_of_people;
+        $this->numberOfPeople = $numberOfPeople;
 
         return $this;
     }
@@ -117,25 +122,38 @@ class Bookings
 
     public function getPhoneNumber(): ?int
     {
-        return $this->phone_number;
+        return $this->phoneNumber;
     }
 
-    public function setPhoneNumber(?int $phone_number): self
+    public function setPhoneNumber(?int $phoneNumber): self
     {
-        $this->phone_number = $phone_number;
+        $this->phoneNumber = $phoneNumber;
 
         return $this;
     }
 
-    public function getCustomerName(): ?string
+    public function getFirstName(): ?string
     {
-        return $this->customer_name;
+        return $this->firstName;
     }
 
-    public function setCustomerName(string $customer_name): self
+    public function setFirstName(string $firstName): self
     {
-        $this->customer_name = $customer_name;
+        $this->firstName = $firstName;
 
         return $this;
     }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(string $lastName): self
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
 }

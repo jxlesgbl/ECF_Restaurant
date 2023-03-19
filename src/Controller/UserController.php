@@ -2,47 +2,38 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UserController extends AbstractController
 {
+
     #[Route('/login', name: 'login')]
-    public function login(Request $request)
+    public function login(Request $request, AuthenticationUtils $authenticationUtils)
     {
-        session_start(); // start the session
+        // Get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
 
-        if($_SERVER["REQUEST_METHOD"] == "POST") {
-            // get the form inputs
-            $username = $_POST['username'];
-            $password = $_POST['password'];
+        // Get the last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
 
-            // check if the username and password are correct
-            if($username == "your_username" && $password == "your_password") {
-                $_SESSION['loggedin'] = true;
-                header("Location: dashboard.php"); // redirect to the dashboard
-                exit;
-            } else {
-                $error = "Invalid username or password!";
-            }
-        }
-
-        return $this->render('home.html.twig');
+        return $this->render('login/index.html.twig', [
+            'last_username' => $lastUsername,
+            'error' => $error,
+        ]);
         
     }
 
+
+    #[Route('/logout', name: 'logout')]
     public function logout(Request $request)
     {
-        session_start(); // start the session
-
-        if(isset($_SESSION['loggedin'])) {
-            unset($_SESSION['loggedin']); // remove the loggedin session variable
-        }
-
-        session_destroy(); // destroy the session
-
-        return $this->render('login.html.twig');
-        exit;
+        // do nothing - the security system handles logout automatically
+        return $this->redirectToRoute('login');
     }
 }

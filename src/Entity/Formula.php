@@ -2,25 +2,23 @@
 
 namespace App\Entity;
 
-use App\Repository\MenuItemsRepository;
+use App\Repository\FormulaRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: MenuItemsRepository::class)]
-class MenuItems
+#[ORM\Entity(repositoryClass: FormulaRepository::class)]
+class Formula
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $menu_id = null;
+    #[ORM\ManyToOne(targetEntity: Menus::class, cascade:['persist'], inversedBy:'formulas')]
+    private ?Menus $menu;
 
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $name = null;
-
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 2)]
@@ -31,26 +29,14 @@ class MenuItems
         return $this->id;
     }
 
-    public function getMenuId(): ?int
+    public function getMenu(): ?Menus
     {
-        return $this->menu_id;
+        return $this->menu;
     }
 
-    public function setMenuId(int $menu_id): self
+    public function setMenu(?Menus $menu)
     {
-        $this->menu_id = $menu_id;
-
-        return $this;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
+        $this->menu = $menu;
 
         return $this;
     }
@@ -60,7 +46,7 @@ class MenuItems
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 

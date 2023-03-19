@@ -1,0 +1,20 @@
+{% extends 'home.html.twig' %}
+
+{% block title %}Booking confirmed{% endblock %}
+
+{% block content %}
+    <h1>Booking confirmed</h1>
+
+    <p>Thank you for booking a table at our restaurant. Here are the details of your booking:</p>
+
+    <ul>
+        <li><strong>Nom et prénom:</strong> {{ booking.lastName }} {{ booking.firstName }}</li>
+        <li><strong>Email:</strong> {{ booking.email }}</li>
+        <li><strong>Phone number:</strong> {{ booking.phoneNumber }}</li>
+        <li><strong>Number of people:</strong> {{ booking.numberOfPeople }}</li>
+        <li><strong>Date:</strong> {{ booking.date|date('D, M j, Y') }}</li>
+        <li><strong>Time:</strong> {{ booking.time|date('g:i A') }}</li>
+    </ul>
+
+    <p>If you need to make any changes to your booking, please contact us at least 24 hours in advance.</p>
+{% endblock %}
