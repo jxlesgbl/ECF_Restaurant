@@ -13,7 +13,8 @@
             <h5 class="card-title">{{ item.name }}</h5>
             <p class="card-text">{{ item.description }}</p>
             <span>{{ item.price }}€</span>
-            <a class="btn btn-primary justify-content-end" href="{{ path('app_admin_menu_edit', {'id': item.id }) }}">Modifier</a>
+          <a class="btn btn-primary text-end justify-content-end" href="{{ path('app_admin_menu_edit', {'id': item.id }) }}">Modifier</a>
+
           </div>
         </div>
       </div>

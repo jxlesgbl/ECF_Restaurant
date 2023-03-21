@@ -9,6 +9,9 @@
 {% endblock %}
 
 {% block content %}
+<div class="container my-5">
+<div class="row">
+
     <h1>Nouveau menu</h1>
 
     {{ form_start(form) }}
@@ -27,5 +30,6 @@
     {{ form_widget(form.submit, { 'attr': { 'class': 'btn btn-primary' } }) }}
 
     {{ form_end(form, {'render_rest': false}) }}
-
+</div>
+</div>
 {% endblock %}
