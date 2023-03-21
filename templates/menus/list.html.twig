@@ -1,0 +1,25 @@
+{% block content %}
+  <div class="container my-5">
+  <h1>Liste des menus</h1>
+    <div class="row">
+    {% for item in menus %}
+      <div class="col-md-6 mb-3">
+        <div class="card">
+          <img style="width:100%;height:100%;aspect-ratio:16/9; object-fit:cover;" class="card-img-top" src="{{ asset('assets/uploads/menus/' ~ item.imageName) }}" alt="Menu Item">
+          <div class="card-body">
+            <h5 class="card-title">{{ item.name }}</h5>
+            <p class="card-text">{{ item.description }}</p>
+            <span>{{ item.price }}€</span>
+            <ul>
+                {% for formula in item.formulas %}
+                    <li>{{ formula.description }} - {{ formula.price ~ ' €' }}</li>
+                {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+
+{% endblock %}

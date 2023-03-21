@@ -1,0 +1,12 @@
+<div id="formulas"
+     data-prototype="{{ include('admin/menu/prototype/formulas.html.twig', {'form': form.formulas.vars.prototype})|e }}"
+     data-widget-tags="{{ '<div class="row"></div>'|e }}"
+     data-widget-counter="{{ form.formulas|length }}">
+    {% for formula in form.formulas %}
+        <div class="well">
+            {% include '/admin/menu/prototype/formulas.html.twig' with {'form': formula} %}
+        </div>
+    {% endfor %}
+
+    <button type="button" class="btn btn-primary add-new-element-widget" data-list-selector="#formulas">Ajouter une formule</button>
+</div>

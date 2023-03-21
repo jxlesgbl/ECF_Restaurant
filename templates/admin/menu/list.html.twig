@@ -1,15 +1,19 @@
+{% extends "base.html.twig" %}
 
 {% block content %}
+  <div class="container my-5">
+  <h1>Liste des menus</h1>
     <div class="row">
     {% if menus is defined %}
     {% for item in menus %}
-      <div class="col-md-6">
+      <div class="col-md-6 mb-3">
         <div class="card">
-          <img style="width:100%;height:100%;aspect-ratio:16/9; object-fit:cover;" class="card-img-top" src="{{ asset('uploads/menus/{{item.imageFile}}') }}" alt="Menu Item">
+          <img style="width:100%;height:100%;aspect-ratio:16/9; object-fit:cover;" class="card-img-top" src="{{ asset('assets/uploads/menus/' ~ item.imageName) }}" alt="Menu Item">
           <div class="card-body">
             <h5 class="card-title">{{ item.name }}</h5>
             <p class="card-text">{{ item.description }}</p>
-            <span>{{ item.price }}</span>
+            <span>{{ item.price }}€</span>
+            <a class="btn btn-primary justify-content-end" href="{{ path('app_admin_menu_edit', {'id': item.id }) }}">Modifier</a>
           </div>
         </div>
       </div>
@@ -57,4 +61,6 @@
         </div>
     {% endif %}
     </div>
+  </div>
+
 {% endblock %}

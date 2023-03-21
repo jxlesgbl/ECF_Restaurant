@@ -7,11 +7,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: MenusRepository::class)]
-#[Vich\Uploadable]
 class Menus
 {
     #[ORM\Id]
@@ -19,7 +17,7 @@ class Menus
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\OneToMany(targetEntity: Formula::class, cascade:['persist'], mappedBy:'menu')]
+    #[ORM\OneToMany(targetEntity: Formula::class, cascade:['persist', 'remove'], mappedBy:'menu')]
     private ?Collection $formulas;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -30,9 +28,6 @@ class Menus
 
     #[ORM\Column(nullable: true)]
     private ?int $price = null;
-
-    #[Vich\UploadableField(mapping: 'menu', fileNameProperty: 'imageName', size: 'imageSize')]
-    private ?File $imageFile = null;
 
     #[ORM\Column(nullable: true)]
     private ?string $imageName = null;
@@ -113,22 +108,6 @@ class Menus
         $this->price = $price;
 
         return $this;
-    }
-
-    public function setImageFile(?File $imageFile = null): void
-    {
-        $this->imageFile = $imageFile;
-
-        if (null !== $imageFile) {
-            // It is required that at least one field changes if you are using doctrine
-            // otherwise the event listeners won't be called and the file is lost
-            $this->updatedAt = new \DateTimeImmutable();
-        }
-    }
-
-    public function getImageFile(): ?File
-    {
-        return $this->imageFile;
     }
 
     public function setImageName(?string $imageName): void

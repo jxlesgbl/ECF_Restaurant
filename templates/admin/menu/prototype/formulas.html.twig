@@ -1,0 +1,7 @@
+<div id="{{ form.vars.id }}" class="col-lg-12">
+    {{ form_label(form.description, 'Description', {'attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+    {{ form_label(form.price, 'Prix', {'attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.price, {'attr': {'class': 'form-control'}}) }}
+    <button type="button" class="btn btn-danger delete-btn-widget" data-delete="#{{ form.vars.id }}" data-list="#formula">Supprimer la formule</button>
+</div>

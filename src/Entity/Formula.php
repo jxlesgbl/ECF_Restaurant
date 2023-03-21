@@ -16,6 +16,7 @@ class Formula
     private ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: Menus::class, cascade:['persist'], inversedBy:'formulas')]
+    #[ORM\JoinColumn(name: 'menu_id', referencedColumnName: 'id')]
     private ?Menus $menu;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
