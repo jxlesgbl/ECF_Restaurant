@@ -1,0 +1,24 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Nouveau Menu{% endblock %}
+
+{% block content %}
+    <h1>Nouveau menu</h1>
+
+    {{ form_start(form) }}
+        {{ form_label(form.name, "Titre du menu") }}
+        {{ form_widget(form.name) }}
+        {{ form_label(form.description, "Entrez la description du menu") }}
+        {{ form_widget(form.description) }}
+        {{ form_label(form.price, "Entrez le prix du menu") }}
+        {{ form_widget(form.price) }}
+        {{ form_label(form.imageFile, "Illustration du plat") }}
+        {{ form_widget(form.imageFile) }}
+
+        {{form_widget(form._token)}}
+
+    {{ form_widget(form.submit, { 'attr': { 'class': 'btn btn-primary' } }) }}
+
+    {{ form_end(form) }}
+
+{% endblock %}

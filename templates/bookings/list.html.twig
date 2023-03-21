@@ -1,24 +1,26 @@
-
-{% block list %}
+{% extends "base.html.twig" %}
+{% block content %}
 
 {% if bookings is empty %}
    <p>No bookings found.</p>
 {% else %}
-   <table>
+   <table class="table">
       <thead>
          <tr>
-            <th>Name</th>
-            <th>Phone Number</th>
-            <th>Email</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Seats</th>
+            <th scope="col">Commande n°</th>
+            <th scope="col">Nom, prénom</th>
+            <th scope="col">Téléphone</th>
+            <th scope="col">Email</th>
+            <th scope="col">Date</th>
+            <th scope="col">Heure</th>
+            <th scope="col">Couverts</th>
          </tr>
       </thead>
       <tbody>
          {% for booking in bookings %}
             <tr>
-               <td>{{ booking.customerName }}</td>
+               <th scope="row">{{ booking.id }}</th>
+               <td>{{ booking.lastName }} {{ booking.firstName }}</td>
                <td>{{ booking.phoneNumber }}</td>
                <td>{{ booking.email }}</td>
                <td>{{ booking.date|date('F j, Y') }}</td>

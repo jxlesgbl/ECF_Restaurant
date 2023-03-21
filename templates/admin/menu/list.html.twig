@@ -1,5 +1,60 @@
-{% extends 'admin/dashboard.html.twig' %}
 
-{% block dashboard_content %}
-<h2>Menus</h2>
+{% block content %}
+    <div class="row">
+    {% if menus is defined %}
+    {% for item in menus %}
+      <div class="col-md-6">
+        <div class="card">
+          <img style="width:100%;height:100%;aspect-ratio:16/9; object-fit:cover;" class="card-img-top" src="{{ asset('uploads/menus/{{item.imageFile}}') }}" alt="Menu Item">
+          <div class="card-body">
+            <h5 class="card-title">{{ item.name }}</h5>
+            <p class="card-text">{{ item.description }}</p>
+            <span>{{ item.price }}</span>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    {% else %}
+        <div class="col-md-6 mb-3">
+        <div class="card">
+          <img style="width:100%;height:100%;aspect-ratio:16/9; object-fit:cover;" class="card-img-top" src="{{ asset('assets/admin/images/menus/exemplate.jpg') }}" alt="Menu Item">
+          <div class="card-body">
+            <h5 class="card-title">Tartare de crevettes</h5>
+            <p class="card-text">Tartare de crevettes accompagnés de sa robe de Saumon</p>
+            <span>23.90€</span>
+          </div>
+        </div>
+        </div>
+        <div class="col-md-6 mb-3">
+        <div class="card">
+          <img style="width:100%;height:100%;aspect-ratio:16/9; object-fit:cover;" class="card-img-top" src="{{ asset('assets/admin/images/menus/exemplate2.jpg') }}" alt="Menu Item">
+          <div class="card-body">
+            <h5 class="card-title">Tartare de crevettes</h5>
+            <p class="card-text">Tartare de crevettes accompagnés de sa robe de Saumon</p>
+            <span>23.90€</span>
+          </div>
+        </div>
+        </div>
+        <div class="col-md-6 mb-3">
+        <div class="card">
+          <img style="width:100%;height:100%;aspect-ratio:16/9; object-fit:cover;" class="card-img-top" src="{{ asset('assets/admin/images/menus/exemplate3.jpg') }}" alt="Menu Item">
+          <div class="card-body">
+            <h5 class="card-title">Tartare de crevettes</h5>
+            <p class="card-text">Tartare de crevettes accompagnés de sa robe de Saumon</p>
+            <span>23.90€</span>
+          </div>
+        </div>
+        </div>
+        <div class="col-md-6">
+        <div class="card">
+          <img style="width:100%;height:100%;aspect-ratio:16/9; object-fit:cover;" class="card-img-top" src="{{ asset('assets/admin/images/menus/exemplate4.jpg') }}" alt="Menu Item">
+          <div class="card-body">
+            <h5 class="card-title">Tartare de crevettes</h5>
+            <p class="card-text">Tartare de crevettes accompagnés de sa robe de Saumon</p>
+            <span>23.90€</span>
+          </div>
+        </div>
+        </div>
+    {% endif %}
+    </div>
 {% endblock %}

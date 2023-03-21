@@ -3,23 +3,36 @@
 {% block title %}Book a table{% endblock %}
 
 {% block content %}
-    <h1>Book a table</h1>
+    <div class="container">
 
+    <h1>Book a table</h1>
     {{ form_start(form) }}
-        {{ form_label(form.email, "Entrez votre adresse email") }}
-        {{ form_widget(form.email) }}
-        {{ form_label(form.firstName, "Entrez votre prénom") }}
-        {{ form_widget(form.firstName) }}
-        {{ form_label(form.lastName, "Entrez votre nom de famille") }}
-        {{ form_widget(form.lastName) }}
-        {{ form_label(form.phoneNumber, "Entrez votre numéro de téléphone") }}
-        {{ form_widget(form.phoneNumber) }}
-        {{ form_label(form.numberOfPeople, "Nombre de couverts") }}
-        {{ form_widget(form.numberOfPeople) }}
-        {{ form_label(form.date, "Date de réservation") }}
-        {{ form_widget(form.date) }}
-        {{ form_label(form.time, "Heure d'arrivée") }}
-        {{ form_widget(form.time) }}
+        
+        {{ form_label(form.firstName, "Entrez votre prénom", {'attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.firstName, {'attr': {'class': 'form-control'}}) }}
+        {{ form_label(form.lastName, "Entrez votre nom de famille", {'attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.lastName, {'attr': {'class': 'form-control'}}) }}
+        {{ form_label(form.phoneNumber, "Entrez votre numéro de téléphone", {'attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.phoneNumber, {'attr': {'class': 'form-control'}}) }}
+        {{ form_label(form.email, "Entrez votre adresse email", {'attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+        {{ form_label(form.numberOfPeople, "Nombre de couverts", {'attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.numberOfPeople, {'attr': {'class': 'form-control'}}) }}
+        {{ form_label(form.date, "Date de réservation", {'attr': {'class': 'form-label'}}) }}
+        {{ form_widget(form.date, {'attr': {'class': 'form-control'}}) }}
+        {{ form_label(form.time, "Heure de réservation", {'attr': {'class': 'form-label'}})}}
+        {{ form_widget(form.time, {'attr': {'class': 'form-control', 'min': '11:30', 'max': '14:00', 'step': '900'}}) }}
+
+        <div class="mt-3 mb-3 row gy-5 gx-5">
+        {% for available_place in time_slot %}
+            <div class="col-4">
+                <button class="btn btn-danger time-slot">
+                    <span class="badge text-bg-danger time">{{ available_place }}</span>
+                    <span class="availability" data-time="{{ available_place }}">Checking availability...</span>
+                </button>
+            </div>
+        {% endfor %}
+        </div>
 
 
         {{form_widget(form._token)}}
@@ -27,4 +40,5 @@
     {{ form_widget(form.submit, { 'attr': { 'class': 'btn btn-primary' } }) }}
 
     {{ form_end(form) }}
+    </div>
 {% endblock %}

@@ -37,12 +37,5 @@ class AdminController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/admin/settings", name="admin_settings")
-     */
-    public function settings()
-    {
-        // Code to retrieve and display settings
-    }
 }
 

@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>
-			{% block title %}Welcome!
+			{% block title %}Le Quai Antique
 			{% endblock %}
 		</title>
 		<link
@@ -11,6 +11,9 @@
 		{# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
 		{% block stylesheets %}
 			<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+			<link rel="stylesheet" href="{{ asset('assets/front/css/home.scss') }}">
+			<link rel="stylesheet" href="{{ asset('assets/front/css/variables.scss') }}">
+
 			{{ encore_entry_link_tags('app') }}
 		{% endblock %}
 
@@ -22,23 +25,17 @@
 	<body>
 		<header>
 			<nav class="navbar navbar-expand-lg navbar-light bg-light">
-				<a class="navbar-brand" href="#">Restaurant Name</a>
+				<a href="{{ path('app_home')}}"><img height="60" width="180" class="navbar-brand" src="{{ asset('assets/front/images/logo/logo.png') }}" /></a>
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
 				<div class="collapse navbar-collapse" id="navbarNav">
 					<ul class="navbar-nav mr-auto">
 						<li class="nav-item">
-							<a class="nav-link" href="#">Menu</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#">Contact</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="{{ path('front_booking_add') }}">Book a table</a>
+							<a class="nav-link" href="{{ path('front_booking_add') }}">Réservation</a>
 						</li>
 					</ul>
-					<ul class="navbar-nav">
+					<ul class="navbar-nav justify-content-end">
 						{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 							<li class="nav-item">
 								<a class="nav-link" href="{{ path('logout') }}">Logout</a>
@@ -48,15 +45,17 @@
 								<a class="nav-link" href="{{ path('login') }}">Login</a>
 							</li>
 						{% endif %}
+                        {% if is_granted('ROLE_ADMIN') %}
+			                {% include 'admin/index.html.twig' %}
+                        {% endif %}
+						<li class="nav-item">
+							<a class="nav-link" href="#">Contact</a>
+						</li>
 					</ul>
+
 				</div>
 			</nav>
 		</header>
-		{% if is_granted('ROLE_ADMIN') %}
-
-			{% include 'admin/index.html.twig' %}
-
-		{% endif %}
 		{% block content %}{% endblock %}
 	</body>
 </html>

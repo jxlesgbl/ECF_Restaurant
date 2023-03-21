@@ -5,9 +5,11 @@ namespace App\Controller;
 use App\Entity\Bookings;
 use App\Form\BookingType;
 use App\Repository\BookingsRepository;
+use DateTime;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -28,6 +30,13 @@ class BookingController extends AbstractController
         // Handle the form submission
         $form->handleRequest($request);
 
+        $start_time = new DateTime('11:30');
+        $end_time = new DateTime('14:00');
+        $time_slots = array();
+
+        for ($time = $start_time; $time <= $end_time; $time->modify('+15 minutes')) {
+            $time_slots[] = $time->format('H:i');
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -48,9 +57,24 @@ class BookingController extends AbstractController
         // Render the booking form
         return $this->render('bookings/add.html.twig', [
             'bookings' => $booking,
+            'time_slot' => $time_slots,
             'form' => $form->createView(),
         ]);
     }
+
+    #[Route("/check_availability", name:"check_availability", methods:["POST"])]
+    public function checkAvailability(Request $request)
+    {
+        $time_slot = $request->request->get('time_slot');
+
+        // TODO: Query the database to check availability for $time_slot
+        //COUNT bookings WHERE date = now AND time = now
+
+        $availability = 50; // Maximum available being 50 people
+
+        return new JsonResponse(array('availability' => $availability));
+    }
+
 
     #[Route("/confirm/{bookingId}", name:"front_booking_confirm")]
     public function bookingConfirmation(Request $request, BookingsRepository $bookingsRepository, int $bookingId): Response
